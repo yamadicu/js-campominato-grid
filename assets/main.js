@@ -1,19 +1,37 @@
-//FUNZIONE CHE CREA L'ELEMENTO HTML
+const start = document.getElementById('start')
+const diffic = document.getElementById('difficoltà')
+const htmlMain = document.querySelector('main')
+const r =document.querySelector(':root')
 
-function elementoHtml( tagHtml, classi, text){
-    let elemento = document.createElement(tagHtml)
-    elemento.className = classi;
-    elemento.innerText = text;
-    return elemento
+start.addEventListener('click', function(){
+    gioco();
+})
+
+function gioco(){
+    let valdiff = parseInt(diffic.value)
+    reset(valdiff)
+    htmlMain.innerHTML = ''
+    //creazione della griglia
+    let divgriglia = document.createElement('div')
+    //aggiunta classe
+    divgriglia.classList.add('griglia')
+    htmlMain.append(divgriglia)
+    reset(valdiff)
+
+    for( let i = 1; i <= valdiff; i++){
+        let divbox = document.createElement('div')
+        divbox.classList.add('box')
+        divbox.innerText = i;
+        document.querySelector('.griglia').append(divbox)
+        divbox.addEventListener('click', function(){
+            this.classList.add('clicked')
+            this.classList.toggle('bg-danger-subtle')
+            console.log(this.innerHTML)
+        })
+    }
 }
 
-let griglia = document.querySelector('.griglia')
-
-for (let i = 1; i <= 100; i++){
-    const divbox = elementoHtml("div", "box", i)
-    divbox.addEventListener('click', function(){
-        this.classList.toggle('bg-primary-subtle')
-        console.log(i);
-    })
-    griglia.append(divbox)
+function reset(x){
+    x = Math.sqrt(x)
+    r.style.setProperty('--numcell', x);
 }
